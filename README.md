@@ -1,19 +1,18 @@
 # Demo repo for messing around with toil workflows
 
-### Installation
-* Build
+### Build
 ```
 ./scripts/build-sandbox library://lkirk/default/toil-demo:latest toil-sandbox
 ```
-* Install
+### Install
 ```
 ./scripts/run-sandbox toil-sandbox pip install -e .
 ```
-* Play
+### Play
 ```
 ./scripts/run-sandbox toil-sandbox ipython
 ```
-* Test
+### Test
 ```
 ./scripts/run-sandbox toil-sandbox pytest demo
 ```
