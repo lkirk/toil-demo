@@ -6,19 +6,25 @@ PROVISIONER_CHOICES = {'aws', 'gce', None}
 LOG_LEVELS = {'Critical', 'Error', 'Warning', 'Debug', 'Info'}
 
 
+def _validate_choices(choices):
+    def validate(value):
+        return value in choices
+    return validate
+
+
 class ToilOptions(Schema):
     # Core options
     jobStore = fields.Str(required=True)
     workDir = fields.Str(missing=None)
     noStdOutErr = fields.Bool(missing=None)
     stats = fields.Bool(missing=None)
-    clean = fields.Str(validate=lambda x: x in CLEAN_CHOICES, missing=None, required=False)
-    cleanWorkDir = fields.Str(validate=lambda x: x in CLEAN_CHOICES, missing='always', required=False)
+    clean = fields.Str(validate=_validate_choices(CLEAN_CHOICES), missing=None, required=False)
+    cleanWorkDir = fields.Str(validate=_validate_choices(CLEAN_CHOICES), missing='always', required=False)
     # clusterStats = nargs='?', action='store', default=None, const=os.getcwd(),
     clusterStats = fields.Str(missing=None)
 
     # Logging options
-    logLevel = fields.Str(validate=lambda x: x in LOG_LEVELS, missing='Info')
+    logLevel = fields.Str(validate=_validate_choices(LOG_LEVELS), missing='Info')
     logFile = fields.Str(missing=None)
     logRotating = fields.Bool(missing=False)
 
@@ -32,7 +38,7 @@ class ToilOptions(Schema):
     statePollingWait = fields.Int(missing=1)
 
     # Autoscaling options
-    provisioner = fields.Str(validate=lambda x: x in PROVISIONER_CHOICES, missing=None)
+    provisioner = fields.Str(validate=_validate_choices(PROVISIONER_CHOICES), missing=None)
     nodeTypes = fields.Str(missing=None)
     minNodes = fields.Str(missing=None)
     maxNodes = fields.Str(missing=None)
