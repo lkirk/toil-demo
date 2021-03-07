@@ -12,5 +12,7 @@ else
     SANDBOX_DIR="$1"
 fi
 
+shift
+
 set -xu
-singularity run --writable --cleanenv "$SANDBOX_DIR"
+singularity run --writable --cleanenv "$SANDBOX_DIR" "${@}"
