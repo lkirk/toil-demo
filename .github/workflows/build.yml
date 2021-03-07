@@ -1,0 +1,25 @@
+name: Singularity Build (docker)
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        singularity_version:
+          - '3.7.1'
+    container:
+      image: quay.io/singularity/singularity:v${{ matrix.singularity_version }}
+      options: --privileged
+    steps:
+    - name: Check out code for the container build
+      uses: actions/checkout@v1
+
+    - name: Build Container
+      env:
+        SINGULARITY_RECIPE: 'Singularity'
+        OUTPUT_CONTAINER: 'container.sif'
+        IMAGE_URI: 'library://lkirk/default/toil-demo'
+        SYLABS_TOKEN: "${{ secrets.SYLABS_TOKEN }}"
+      run: .github/scripts/build-and-push

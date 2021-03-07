@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Run a singularity sandbox
+
+set -e
+
+if [ -z "$1" ]; then
+    echo 'No sandbox_dir specified' >&2
+    echo 'Usage: run-sandbox <sandbox_dir>' >&2
+    exit 1
+else
+    SANDBOX_DIR="$1"
+fi
+
+set -xu
+singularity run --writable --cleanenv "$SANDBOX_DIR"

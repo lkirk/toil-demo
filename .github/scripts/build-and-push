@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+set +x
+if [ -z "${SYLABS_TOKEN}" ]; then
+    'Could not find SYLABS_TOKEN in the environment'
+    exit 1
+fi
+
+if [ -f "${SINGULARITY_RECIPE}" ]; then
+    set -x
+    singularity build "${OUTPUT_CONTAINER}" "${SINGULARITY_RECIPE}"
+    singularity remote login <<< "${SYLABS_TOKEN}"
+    # TODO: sign images
+    singularity push -U "${OUTPUT_CONTAINER}" "${IMAGE_URI}"
+else
+    echo "${SINGULARITY_RECIPE} is not found."
+    echo "Present working directory: $PWD"
+    ls -la
+fi

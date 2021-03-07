@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Build a singularity sandbox in the specified directory
+
+set -e
+
+if [ -z "$1" ]; then
+    echo 'No image specified' >&2
+    echo 'Usage: build-sandbox <image> <destination>' >&2
+    exit 1
+else
+    IMAGE="$1"
+fi
+
+if [ -z "$2" ]; then
+    echo 'No sandbox out specified' >&2
+    echo 'Usage: build-sandbox <image> <destination>' >&2
+    exit 1
+else
+    SANDBOX_DIR="$2"
+fi
+
+set -xu
+
+singularity build --sandbox "$SANDBOX_DIR" "$IMAGE"
