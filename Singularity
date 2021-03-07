@@ -22,7 +22,13 @@ From: python:3.8-slim
 	cd /opt
 	python -m venv ve
 	ve/bin/pip install --upgrade pip setuptools
-	ve/bin/pip install 'marshmallow==3.10.0' 'toil[all]==5.2.0' 'pytest==6.2.2' 'numpy==1.20.1' ipython ipdb
+	ve/bin/pip install \
+		'marshmallow==3.10.0' \
+		'toil[all]==5.2.0' \
+		'pytest==6.2.2' \
+		'numpy==1.20.1' \
+		ipython \
+		ipdb
 
 %runscript
 	. /opt/ve/bin/activate
