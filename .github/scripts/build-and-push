@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+TAG=latest
+
 set +x
 if [ -z "${SYLABS_TOKEN}" ]; then
     'Could not find SYLABS_TOKEN in the environment'
@@ -13,7 +15,7 @@ if [ -f "${SINGULARITY_RECIPE}" ]; then
     singularity build "${OUTPUT_CONTAINER}" "${SINGULARITY_RECIPE}"
     singularity remote login <<< "${SYLABS_TOKEN}"
     # TODO: sign images
-    singularity push -U "${OUTPUT_CONTAINER}" "${IMAGE_URI}"
+    singularity push -U "${OUTPUT_CONTAINER}" "${IMAGE_URI}:${TAG}"
 else
     echo "${SINGULARITY_RECIPE} is not found."
     echo "Present working directory: $PWD"
