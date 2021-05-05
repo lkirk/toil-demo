@@ -1,6 +1,11 @@
 Bootstrap: docker
 From: python:3.8-slim
 
+%files
+    demo /opt/toil_demo/demo
+    setup.py /opt/toil_demo/setup.py
+
+
 %post
 	set -e
 
@@ -18,18 +23,9 @@ From: python:3.8-slim
 	locale-gen en_US.utf8
 	/usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
-	# Create ve; install packages
-	cd /opt
-	python -m venv ve
-	ve/bin/pip install --upgrade pip setuptools
-	ve/bin/pip install \
-		'marshmallow==3.10.0' \
-		'toil[all]==5.2.0' \
-		'pytest==6.2.2' \
-		'numpy==1.20.1' \
-		ipython \
-		ipdb
+	# install packages
+	pip install --upgrade --no-cache-dir pip setuptools
+	pip install --upgrade --no-cache-dir /opt/toil_demo
 
 %runscript
-	. /opt/ve/bin/activate
-	"$@"
+	python -m demo.workflows.something
